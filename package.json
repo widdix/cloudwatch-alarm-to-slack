@@ -1,0 +1,32 @@
+{
+  "name": "cloudwatch-alarm-to-slack",
+  "version": "1.0.0",
+  "description": "CloudWatch Alarm to Slack",
+  "main": "handler.js",
+  "scripts": {
+    "test": "./node_modules/.bin/eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/widdix/cloudwatch-alarm-to-slack.git"
+  },
+  "keywords": [
+    "aws",
+    "cloudwatch",
+    "slack"
+  ],
+  "author": "Michael Wittig <michael@widdix.de>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/widdix/cloudwatch-alarm-to-slack/issues"
+  },
+  "homepage": "https://github.com/widdix/cloudwatch-alarm-to-slack#readme",
+  "devDependencies": {
+    "eslint": "^4.10.0",
+    "eslint-config-google": "^0.9.1"
+  },
+  "dependencies": {
+    "request": "^2.83.0",
+    "request-promise-native": "^1.0.5"
+  }
+}
