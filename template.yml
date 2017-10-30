@@ -4,7 +4,7 @@ Transform: 'AWS::Serverless-2016-10-31'
 Description: 'CloudWatch Alarm to Slack'
 Parameters:
   Threshold:
-    Description: 'Receive a Slack message, if your monthly estimated charges cross this value.'
+    Description: 'Alarm, if your monthly estimated charges are higher'
     Default: 1
     Type: Number
   WebhookURL:
@@ -23,7 +23,7 @@ Resources:
       Environment:
         Variables:
           WEBHOOK_URL: !Ref WebhookURL
-      Events: 
+      Events:
         SNS:
           Type: SNS
           Properties:
@@ -32,11 +32,11 @@ Resources:
     Type: 'AWS::CloudWatch::Alarm'
     Properties:
       AlarmActions:
-      - !Ref Topic
+        - !Ref Topic
       ComparisonOperator: GreaterThanThreshold
       Dimensions:
-      - Name: Currency
-        Value: USD
+        - Name: Currency
+          Value: USD
       EvaluationPeriods: 1
       MetricName: EstimatedCharges
       Namespace: 'AWS/Billing'

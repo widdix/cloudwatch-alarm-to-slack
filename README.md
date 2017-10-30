@@ -9,7 +9,7 @@ Or use [marbot, a free chatbot ensuring you never miss an alert from Amazon Web 
 1. Start by setting up an incoming webhook integration in your Slack workspace: https://my.slack.com/services/new/incoming-webhook/
 2. Select a channel or create a new one
 3. Click on *Add Incoming WebHooks integration*
-4. You are redirected to a new page where you can see your *Webhook URL*. Copy the value, you will need it soon.
+4. You are redirected to a new page where you can see your *Webhook URL*. Copy the value; you will need it soon.
 
 ## AWS setup
 
