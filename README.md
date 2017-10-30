@@ -2,7 +2,7 @@
 
 Read the full [blog post on cloudonaut.io](https://cloudonaut.io/cloudwatch-alarm-to-slack).
 
-Or use [marbot, a chatbot ensuring you never miss an alert from Amazon Web Services including CloudWatch](https://marbot.io/).
+Or use [marbot, a free chatbot ensuring you never miss an alert from Amazon Web Services including CloudWatch](https://marbot.io/).
 
 ## Slack setup
 
@@ -14,7 +14,7 @@ Or use [marbot, a chatbot ensuring you never miss an alert from Amazon Web Servi
 ## AWS setup
 
 1. Clone or [download](https://github.com/widdix/cloudwatch-alarm-to-slack/zipball/master/) this respository
-2. create a S3 bucket for SAM (replace `$UniqueSuffix` with e.g. your username): `aws s3 mb s3://cw-to-slack-$UniqueSuffix`
+2. create a S3 bucket for SAM (replace `$UniqueSuffix` with e.g. your username): `aws --region us-east-1 s3 mb s3://cw-to-slack-$UniqueSuffix`
 3. Install Node.js dependencies: `npm install`
-4. package the Lambda function code (replace `$UniqueSuffix` with e.g. your username): `aws cloudformation package --s3-bucket cw-to-slack-$UniqueSuffix  --template-file template.yml --output-template-file template.sam.yml`
-5. Deploy the CloudFormation stack (replace `$WebhookURL` with your URL from Slack): `aws cloudformation deploy --parameter-overrides "WebhookURL=$WebhookURL" --template-file template.sam.yml --stack-name cw-to-slack --capabilities CAPABILITY_IAM`
+4. package the Lambda function code (replace `$UniqueSuffix` with e.g. your username): `aws --region us-east-1 cloudformation package --s3-bucket cw-to-slack-$UniqueSuffix  --template-file template.yml --output-template-file template.sam.yml`
+5. Deploy the CloudFormation stack (replace `$WebhookURL` with your URL from Slack): `aws --region us-east-1 cloudformation deploy --parameter-overrides "WebhookURL=$WebhookURL" --template-file template.sam.yml --stack-name cw-to-slack --capabilities CAPABILITY_IAM`
