@@ -1,6 +1,6 @@
-# CloudWatch Alarm to Slack
+# Send CloudWatch Alarms to Slack with AWS Lambda
 
-Read the full [blog post on cloudonaut.io](https://cloudonaut.io/cloudwatch-alarm-to-slack/).
+Read the full [blog post on cloudonaut.io](https://cloudonaut.io/send-cloudwatch-alarms-to-slack-with-aws-lambda/).
 
 Or use [marbot, a free chatbot ensuring you never miss an alert from Amazon Web Services including CloudWatch](https://marbot.io/).
 
