@@ -17,7 +17,7 @@ Resources:
     Type: 'AWS::Serverless::Function'
     Properties:
       Handler: 'handler.event'
-      Runtime: 'nodejs6.10'
+      Runtime: 'nodejs14.x'
       MemorySize: 512
       Timeout: 30
       Environment:
@@ -43,3 +43,10 @@ Resources:
       Period: 86400
       Statistic: Maximum
       Threshold: !Ref Threshold
+
+Outputs:
+  AlarmTopicArn:
+    Description: ARN of the SNS topic than forwards alarms to Slack
+    Value: !Ref Topic
+    Export:
+      Name: !Join [ "-", [ !Ref "AWS::StackName", AlarmTopicArn ] ]

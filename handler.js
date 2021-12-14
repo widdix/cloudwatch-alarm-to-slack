@@ -24,6 +24,10 @@ const processRecord = (record) => {
     attachments: [{
       text: message.NewStateReason,
       fields: [{
+       title: 'Description',
+       value: message.AlarmDescription,
+       short: false,
+     }, {
         title: 'Time',
         value: message.StateChangeTime,
         short: true,
