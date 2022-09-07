@@ -1,0 +1,43 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: 'CloudWatch Alarm to Slack - now with Chatbots'
+Resources:
+  #SNS topics used for alerting (one for each stage)
+  ProdAlertTopic:
+    Type: 'AWS::SNS::Topic'
+  SandboxAlertTopic:
+    Type: 'AWS::SNS::Topic'
+
+  #begin section Chatbot for slack
+  SandboxChatbotForSlack:
+    Type: 'AWS::Chatbot::SlackChannelConfiguration'
+    Properties:
+      ConfigurationName: slack-alerts-cf-based-sandbox
+      SlackChannelId: C04014LS5LM
+      SlackWorkspaceId: T01G8NEU517
+      IamRoleArn: arn:aws:iam::117479975591:role/service-role/AWSChatbotSlackAlertingRole
+      SnsTopicArns:
+        - !Ref SandboxAlertTopic
+  ProdChatbotForSlack:
+    Type: 'AWS::Chatbot::SlackChannelConfiguration'
+    Properties:
+      ConfigurationName: slack-alerts-cf-based-prod
+      SlackChannelId: C02R76BP3R6
+      SlackWorkspaceId: T01G8NEU517
+      IamRoleArn: arn:aws:iam::117479975591:role/service-role/AWSChatbotSlackAlertingRole
+      SnsTopicArns:
+        - !Ref ProdAlertTopic
+  #end section Chatbot for slack
+
+Outputs:
+  ProdAlarmTopicArn:
+    Description: ARN of the SNS topic than forwards alarms to Slack
+    Value: !Ref ProdAlertTopic
+    Export:
+      Name: !Join [ "-", [ !Ref "AWS::StackName", "prod", ProdAlarmTopicArn ] ]
+  SandboxAlarmTopicArn:
+    Description: ARN of the SNS topic than forwards alarms to Slack
+    Value: !Ref SandboxAlertTopic
+    Export:
+      Name: !Join [ "-", [ !Ref "AWS::StackName", "sandbox", SandboxAlarmTopicArn ] ]

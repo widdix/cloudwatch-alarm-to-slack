@@ -1,4 +1,17 @@
-# Send CloudWatch Alarms to Slack with AWS Lambda
+# Connecting AWS resources with Slack using AWS Chatbot
+
+This repository creates SNS topics to send alerts to and uses Chatbot to connect these with Slack channels. It does so separately for prod and sandbox. 
+
+## Deploy
+In the project root directory execute:
+
+`aws cloudformation deploy --template-file chatbotForSlack.cf.yml --stack-name slack-chatbot-connection`
+
+## Resources
+CloudFormation: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-chatbot-slackchannelconfiguration.html#cfn-chatbot-slackchannelconfiguration-iamrolearn
+Chatbot and Slack: https://docs.aws.amazon.com/chatbot/latest/adminguide/slack-setup.html
+
+# OLD WAY: Send CloudWatch Alarms to Slack with AWS Lambda
 
 Read the full [blog post on cloudonaut.io](https://cloudonaut.io/send-cloudwatch-alarms-to-slack-with-aws-lambda/).
 

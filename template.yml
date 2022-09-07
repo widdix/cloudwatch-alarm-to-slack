@@ -1,7 +1,7 @@
 ---
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: 'AWS::Serverless-2016-10-31'
-Description: 'CloudWatch Alarm to Slack'
+Description: 'CloudWatch Alarm to Slack - now with Chatbots'
 Parameters:
   Threshold:
     Description: 'Alarm, if your monthly estimated charges are higher'
@@ -11,8 +11,34 @@ Parameters:
     Description: 'Slack incoming webhook URL'
     Type: String
 Resources:
-  Topic:
+  #SNS topics used for alerting (one for each stage)
+  ProdAlertTopic:
     Type: 'AWS::SNS::Topic'
+  SandboxAlertTopic:
+    Type: 'AWS::SNS::Topic'
+
+  #begin section Chatbot for slack
+  SandboxChatbotForSlack:
+    Type: 'AWS::Chatbot::SlackChannelConfiguration'
+    Properties:
+      ConfigurationName: slack-alerts-cf-based-sandbox
+      SlackChannelId: C04014LS5LM
+      SlackWorkspaceId: T01G8NEU517
+      IamRoleArn: arn:aws:iam::aws:policy/ReadOnlyAccess
+      SnsTopicArns:
+        - !Ref SandboxAlertTopic
+  ProdChatbotForSlack:
+    Type: 'AWS::Chatbot::SlackChannelConfiguration'
+    Properties:
+      ConfigurationName: slack-alerts-cf-based-sandbox
+      SlackChannelId: C02R76BP3R6
+      SlackWorkspaceId: T01G8NEU517
+      IamRoleArn: arn:aws:iam::aws:policy/ReadOnlyAccess
+      SnsTopicArns:
+        - !Ref ProdAlertTopic
+  #end section Chatbot for slack
+
+  #DEPRECATED - Delete?
   LambdaFunction:
     Type: 'AWS::Serverless::Function'
     Properties:
@@ -27,12 +53,13 @@ Resources:
         SNS:
           Type: SNS
           Properties:
-            Topic: !Ref Topic
+            Topic: !Ref ProdAlertTopic
+  #I don't understand this billing alarm here. What has this to do with the connection to Slack? Delete?
   Alarm:
     Type: 'AWS::CloudWatch::Alarm'
     Properties:
       AlarmActions:
-        - !Ref Topic
+        - !Ref ProdAlertTopic
       ComparisonOperator: GreaterThanThreshold
       Dimensions:
         - Name: Currency
@@ -45,8 +72,19 @@ Resources:
       Threshold: !Ref Threshold
 
 Outputs:
+  #DEPRECATED - Kept previous name for backward compatibility - when changing services, new name (with stage) should be used
   AlarmTopicArn:
     Description: ARN of the SNS topic than forwards alarms to Slack
-    Value: !Ref Topic
+    Value: !Ref ProdAlertTopic
     Export:
-      Name: !Join [ "-", [ !Ref "AWS::StackName", AlarmTopicArn ] ]
+      Name: !Join [ "-", [ !Ref "AWS::StackName", "prod", AlarmTopicArn ] ]
+  ProdAlarmTopicArn:
+    Description: ARN of the SNS topic than forwards alarms to Slack
+    Value: !Ref ProdAlertTopic
+    Export:
+      Name: !Join [ "-", [ !Ref "AWS::StackName", "prod", ProdAlarmTopicArn ] ]
+  SandboxAlarmTopicArn:
+    Description: ARN of the SNS topic than forwards alarms to Slack
+    Value: !Ref SandboxAlertTopic
+    Export:
+      Name: !Join [ "-", [ !Ref "AWS::StackName", "sandbox", SandboxAlarmTopicArn ] ]
